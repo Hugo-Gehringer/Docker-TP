@@ -5,6 +5,7 @@ services:
     build:
       context: ../../.
       dockerfile: Dockerfile
+    image: flask-app:latest
     environment:
       - FLASK_ENV=development
       - DB_USER=${DB_USER}

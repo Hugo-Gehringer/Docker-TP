@@ -22,15 +22,13 @@ Ce projet configure une application Flask avec Nginx et PostgreSQL comme base de
    ```sh
    git clone https://github.com/Hugo-Gehringer/Docker-TP.git
    cd Docker-TP
-
-2. Générez les secrets :
+   
+2. Créer l'image docker pour l'application Flask :
    ```sh
-   echo "user" | docker secret create db_user -
-   echo "password" | docker secret create db_password -
-   echo "flaskdb" | docker secret create db_name -
-   echo "db" | docker secret create db_host -
+   docker build -t flask-app:latest .
 
-3. Démarer le docker compose :
+## Lancez l'application avec Docker Compose
+1. Il suffit de lancer la commande suivante dans le dossier du docker-compose.yml :
    ```sh
    docker-compose up -d
 
@@ -39,8 +37,14 @@ Ce projet configure une application Flask avec Nginx et PostgreSQL comme base de
 1. Initialiser le swarm
    ```sh
    docker swarm init
-
-2. Déployer la stack
+   
+2. Générez les secrets :
+   ```sh
+   echo "user" | docker secret create db_user -
+   echo "password" | docker secret create db_password -
+   echo "flaskdb" | docker secret create db_name -
+   echo "db" | docker secret create db_host -
+3. Déployer la stack en utilisant le fichier docker-stack.yml en étant dans le dossier du fichier :
    ```sh
    docker stack deploy -c docker-stack.yml swarm-stack
 
