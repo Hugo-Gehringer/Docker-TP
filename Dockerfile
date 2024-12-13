@@ -1,5 +1,9 @@
 FROM python:3.11-alpine AS builder
 
+LABEL title="Flask application DOCKER TP"\
+    version="1.0.0" \
+    created="2024-12-13"
+
 RUN apk add --no-cache build-base libffi-dev
 
 COPY requirements.txt .
