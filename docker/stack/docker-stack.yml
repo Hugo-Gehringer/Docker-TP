@@ -15,6 +15,7 @@ services:
 #      interval: 30s
 #      timeout: 10s
 #      retries: 3
+# Je l'ai commenté car il ne fonctionne pas avec le mode swarm et je n'ai pas trouvé de solution pour le moment. Comme il ne fonctionne pas ça fait down le nginx.Si vous avez une idée, je suis preneur.
     deploy:
       replicas: 3
       placement:
