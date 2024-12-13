@@ -42,7 +42,7 @@ Ce projet configure une application Flask avec Nginx et PostgreSQL comme base de
 
 2. Déployer la stack
    ```sh
-   docker stack deploy -c docker-compose.yml app
+   docker stack deploy -c docker-stack.yml swarm-stack
 
 ## Utilisation de l'application
 
