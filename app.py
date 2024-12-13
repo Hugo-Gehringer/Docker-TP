@@ -6,11 +6,16 @@ app = Flask(__name__)
 
 def get_db_connection():
     try:
+        db_user = os.getenv('DB_USER')
+        db_password = os.getenv('DB_PASSWORD')
+        db_name = os.getenv('DB_NAME')
+        db_host = os.getenv('DB_HOST')
+
         conn = psycopg2.connect(
-            host="db",
-            database="flaskdb",
-            user="user",
-            password="password"
+            host=db_host,
+            database=db_name,
+            user=db_user,
+            password=db_password
         )
         return conn
     except psycopg2.Error as e:
