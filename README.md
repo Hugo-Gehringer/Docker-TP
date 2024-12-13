@@ -22,13 +22,15 @@ Ce projet configure une application Flask avec Nginx et PostgreSQL comme base de
    ```sh
    git clone https://github.com/Hugo-Gehringer/Docker-TP.git
    cd Docker-TP
-   
-2. Créer l'image docker pour l'application Flask :
-   ```sh
-   docker build -t flask-app:latest .
 
 ## Lancez l'application avec Docker Compose
-1. Il suffit de lancer la commande suivante dans le dossier du docker-compose.yml :
+1. Il faut tout d'abord renseigner les variables d'environnement dans le fichier .env:
+    ```sh
+    DB_USER=
+   DB_PASSWORD=
+   DB_NAME=
+   DB_HOST=
+1. Il suffit ensuite de lancer la commande suivante dans le dossier du docker-compose.yml :
    ```sh
    docker-compose up -d
 
