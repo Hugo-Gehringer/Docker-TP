@@ -8,28 +8,33 @@ services:
     image: flask-app:latest
     environment:
       - FLASK_ENV=development
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+    secrets:
+      - db_user
+      - db_password
+      - db_name
+      - db_host
+#    healthcheck:
+#      test: ["CMD", "curl", "-f", "http://localhost:5000"]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 3
     deploy:
-      replicas: 3
+      replicas: 6
       placement:
-        max_replicas_per_node: 1
+        max_replicas_per_node: 2
       resources:
         limits:
           memory: 256M
           cpus: '0.5'
     networks:
-      - app-network
+      - swarm-network
 
   nginx:
     image: nginx:alpine
     ports:
       - "80:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx-stack.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - flask-app
     deploy:
@@ -38,23 +43,27 @@ services:
           memory: 128M
           cpus: '0.5'
     networks:
-      - app-network
+      - swarm-network
 
   db:
     image: postgres:14-alpine
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: flaskdb
+      POSTGRES_USER_FILE: /run/secrets/db_user
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      POSTGRES_DB_FILE: /run/secrets/db_name
     deploy:
       resources:
         limits:
           memory: 512M
           cpus: '0.5'
+    secrets:
+      - db_user
+      - db_password
+      - db_name
     networks:
-      - app-network
+      - swarm-network
 
   portainer:
     image: portainer/portainer-ce
@@ -63,11 +72,23 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+    networks:
+      - swarm-network
 
 volumes:
   db_data:
   portainer_data:
 
 networks:
-  app-network:
+  swarm-network:
     driver: overlay
+
+secrets:
+  db_user:
+    external: true
+  db_password:
+    external: true
+  db_name:
+    external: true
+  db_host:
+    external: true
