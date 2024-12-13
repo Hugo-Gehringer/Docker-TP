@@ -4,6 +4,6 @@ RUN apk add --no-cache build-base libffi-dev
 
 WORKDIR /app
 
-COPY requirements.txt .
+COPY webapp/requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
